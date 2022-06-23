@@ -1,0 +1,30 @@
+
+DOCKERFILE {
+
+# install netcap
+RUN apt-get update && apt-get -y dist-upgrade
+RUN apt install -y netcat
+
+
+# conditionally do migration (npm run migrate:prod) and start 
+# run from docker compose
+# you have to use shell from of call to access env vars
+# ENTRYPOINT ./entrypoint.sh $migrateDevArg
+
+#install psql in docker
+
+RUN apt-get update && apt-get -y dist-upgrade
+RUN apt-get install -y postgresql-client
+
+# make file executable
+RUN chmod 755 entrypoint.sh
+
+
+}
+
+docker-compose {
+
+# run entrypoint
+    command: ./entrypoint.sh $migrateDevArg
+    
+}
